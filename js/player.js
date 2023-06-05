@@ -3,28 +3,34 @@ class Player {
         this.ctx = ctx;
         this.game = game;
         this.x = 550;
-        this.y = 50;
-        this.width = 51;
-        this.height = 66;
+        this.y = 550;
+        this.width = 25;
         this.xFrame = 0;
-        this.yFrame = 1;
+        this.yFrame = 0;
         this.xFramesCount = 3;
         this.yFramesCount = 4;
         this.image = new Image();
         this.image.src = '../img/player-sprite.png';
         this.isReady = false;
         this.image.onload = () => {
-            //this.height = this.width * this.image.height / this.image.width;
+            this.height = this.image.height / this.yFramesCount;
             this.isReady = true;
         }
 
-        this.movements = {
-            jump: false,
-            left: false,
-            right: false
+        this.actions = {
+            canClimb: false,
         }
 
-        this.vy = 0;
+        this.movements = {
+            up: false,
+            left: false,
+            right: false,
+            down: false,
+            space: false
+        }
+
+        this.vx = 2;
+        this.vy = 2;
     }
 
     draw() {
@@ -40,12 +46,17 @@ class Player {
                 this.width,
                 this.height
             );
+            this.ctx.beginPath();
+      this.ctx.rect(this.x, this.y, this.width, this.height);
+      this.ctx.stroke();
         }
     }
 
-   /* move() {
+    move() {
+        const isStop = Object.values(this.movements).every(value => value === false);
         if (this.movements.left) {
             this.yFrame = 1;
+            this.x -= this.vx;
             if (this.game.counter % 10 === 0) {
                 this.xFrame++;
                 if (this.xFrame >= this.xFramesCount) {
@@ -54,37 +65,66 @@ class Player {
             }
         } else if (this.movements.right) {
             this.yFrame = 2;
+            this.x += this.vx;
             if (this.game.counter % 10 === 0) {
                 this.xFrame++;
                 if (this.xFrame >= this.xFramesCount) {
                     this.xFrame = 0;
                 }
             }
+        } else if (this.movements.up && this.actions.canClimb) {
+            this.yFrame = 3;
+            this.y -= this.vy;
+            if (this.game.counter % 10 === 0) {
+                this.xFrame++;
+                if (this.xFrame >= this.xFramesCount) {
+                    this.xFrame = 0;
+                }
+            }
+        } else if (this.movements.down && this.actions.canClimb) {
+            this.yFrame = 3;
+            this.y += this.vy;
+            if (this.game.counter % 10 === 0) {
+                this.xFrame++;
+                if (this.xFrame >= this.xFramesCount) {
+                    this.xFrame = 0;
+                }
+            }
+        } else if (isStop) {
+            this.xFrame = 0;
+            this.yFrame = 0;
         }
 
-        this.vy += this.gravity;
-        this.y += this.vy;
 
 
-        if (this.y >= this.ctx.canvas.height - this.height - 60) {
-            this.y = this.ctx.canvas.height - this.height - 60;
+
+    /*if (!this.actions.canClimb && this.y >= this.ctx.canvas.height - this.height - 35) {
+            this.y = this.ctx.canvas.height - this.height - 35;
             this.vy = 0;
-        }
+        }*/
     }
 
     onKeyEvent(event) {
+
         const status = event.type === 'keydown';
         if (!event.repeat) {
             switch (event.keyCode) {
                 case KEY_LEFT:
                     this.movements.left = status;
-                    this.xFrame = 1;
                     break;
                 case KEY_RIGHT:
                     this.movements.right = status;
-                    this.xFrame = 1;
+                    break;
+                case KEY_UP:
+                    this.movements.up = status;
+                    break;
+                case KEY_DOWN:
+                    this.movements.down = status;
+                    break;
+                case KEY_SPACE:
+                    this.movements.space = status;
                     break;
             }
         }
-    }*/
+    }
 }
