@@ -3,7 +3,7 @@ class Player {
         this.ctx = ctx;
         this.game = game;
         this.x = 550;
-        this.y = 550;
+        this.y = 565;
         this.width = 25;
         this.xFrame = 0;
         this.yFrame = 0;
@@ -13,7 +13,7 @@ class Player {
         this.image.src = '../img/player-sprite.png';
         this.isReady = false;
         this.image.onload = () => {
-            this.height = this.image.height / this.yFramesCount;
+            this.height = this.image.height / this.width;
             this.isReady = true;
         }
 
@@ -28,6 +28,9 @@ class Player {
             down: false,
             space: false
         }
+
+        this.isHoldingPlant = false;
+        this.spaceBarPressed = false;
 
         this.vx = 2;
         this.vy = 2;
@@ -95,6 +98,17 @@ class Player {
             this.yFrame = 0;
         }
 
+        if(this.x < 260 && this.y <= 418-this.height){
+            this.x = 260
+        }else if(this.x - this.width > 410 && this.y <= 418-this.height){
+            this.x = 436
+        }
+        if(this.x < 690 && this.y <= 418-this.height){
+            this.x = 720
+        }else if(this.x - this.width > 900 && this.y <= 418-this.height){
+            this.x = 900
+        }
+
 
 
 
@@ -121,10 +135,14 @@ class Player {
                 case KEY_DOWN:
                     this.movements.down = status;
                     break;
-                case KEY_SPACE:
-                    this.movements.space = status;
-                    break;
+                    case KEY_SPACE:
+                        this.movements.space = status;
+                        if (status) {
+                            this.spaceBarPressed = true;
+                        } else {
+                            this.spaceBarPressed = false;
+                        }
+                        break;
             }
         }
-    }
-}
+    }}

@@ -1,17 +1,16 @@
-class Planta {
-    constructor(ctx, x, y){
+class Plataforma {
+    constructor(ctx, x, y, large){
        this.ctx = ctx,
        this.x = x;
         this.y = y;
-        this.width = 35;
+        this.width = 176;
         this.image = new Image();
-        this.image.src = '../img/planta.png';
+        this.image.src = '../img/plataforma.png';
         this.isReady = false;
         this.image.onload = () => {
             this.height = this.width * this.image.height / this.image.width;
             this.isReady = true;
         } 
-        this.isTaken = false;
     }
 
     draw() {
@@ -29,13 +28,4 @@ class Planta {
       this.ctx.stroke();
         }
     }
-
-    collidesWith(element) {
-        const isColliding = this.x < element.x + element.width &&
-          this.x + this.width > element.x &&
-          this.y < element.y + element.height &&
-          this.y + this.height > element.y;
-    
-        return isColliding;
-      }
 }
