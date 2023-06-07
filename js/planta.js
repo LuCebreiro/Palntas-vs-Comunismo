@@ -1,5 +1,5 @@
 class Planta {
-    constructor(ctx, x, y){
+    constructor(ctx, x, y, isTaken=false){
        this.ctx = ctx,
        this.x = x;
         this.y = y;
@@ -11,7 +11,7 @@ class Planta {
             this.height = this.width * this.image.height / this.image.width;
             this.isReady = true;
         } 
-        this.isTaken = false;
+        this.isTaken = isTaken;
     }
 
     draw() {
@@ -38,4 +38,8 @@ class Planta {
     
         return isColliding;
       }
+
+    takedPlant() {
+        this.isTaken = true;
+    }
 }

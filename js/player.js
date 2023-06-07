@@ -98,16 +98,19 @@ class Player {
             this.yFrame = 0;
         }
 
-        if(this.x < 260 && this.y <= 418-this.height){
+        if(this.x < this.ctx.canvas.width/2) {
+            if(this.x < 260 && this.y <= 426-this.height){
             this.x = 260
-        }else if(this.x - this.width > 410 && this.y <= 418-this.height){
-            this.x = 436
-        }
-        if(this.x < 690 && this.y <= 418-this.height){
+        }else if(this.x - this.width > 415 && this.y <= 426-this.height){
+            this.x = 415
+        }} else {
+            console.log('derecha')
+        if(this.x < 690 && this.y <= 426-this.height){
             this.x = 720
-        }else if(this.x - this.width > 900 && this.y <= 418-this.height){
+        }else if(this.x - this.width > 900 && this.y <= 426-this.height){
             this.x = 900
         }
+    }
 
 
 
@@ -137,11 +140,6 @@ class Player {
                     break;
                     case KEY_SPACE:
                         this.movements.space = status;
-                        if (status) {
-                            this.spaceBarPressed = true;
-                        } else {
-                            this.spaceBarPressed = false;
-                        }
                         break;
             }
         }

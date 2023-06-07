@@ -31,12 +31,13 @@ class Obstacle {
 
     collidesWith(element) {
         const isColliding = this.x < element.x + element.width &&
-        this.x + this.width > element.x &&
-        this.y < element.y + element.height &&
-        this.y + this.height > element.y &&
+       
+        this.y + this.height > element.y + element.height &&
+       this.y < element.y + element.height-8 &&
         element.x > this.x &&
-        element.x + element.width < this.x + this.width;
+        element.x + element.width < this.x + this.width ;
   
       return isColliding;
     }
-      }
+}
+    
