@@ -80,11 +80,22 @@ class Game {
             this.player.actions.canClimb = true;
             if (this.player.actions.canClimb) {
                 this.player.actions.isClimbing = true;
+                if (this.player.y < this.stairs.y) {
+                    this.player.actions.isClimbing = false;
+                }
                 if(this.player.actions.isClimbing && this.player.y + this.player.height > this.stairs.y){
                     console.log('no puedo horizontal')
                     this.player.movements.left = false;
                 this.player.movements.right = false;
-                }    
+                } /*const stopClimb = this.stairs.some((obs) =>{
+                    this.player.y + this.player.height/2 < obs.y ||
+                    this.player.y + this.player.height > obs.height
+                });  
+                
+                if (stopClimb){
+                    this.player.actions.canClimb = false;
+
+                }*/
             }
            console.log('puedo subir')
 
