@@ -1,5 +1,5 @@
 class Plataforma {
-    constructor(ctx, x, y, large){
+    constructor(ctx, x, y){
        this.ctx = ctx,
        this.x = x;
         this.y = y;
@@ -28,4 +28,12 @@ class Plataforma {
       this.ctx.stroke();
         }
     }
-}
+
+    collidesWith(element) {
+        const isColliding = this.x < element.x + element.width &&
+      this.x + this.width > element.x &&
+      this.y < element.y + element.height &&
+      this.y + this.height > element.y;
+
+        return isColliding;
+}}
