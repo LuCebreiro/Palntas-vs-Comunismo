@@ -3,8 +3,9 @@ class Player {
         this.ctx = ctx;
         this.game = game;
         this.x = 550;
-        this.y = 565;
-        this.width = 25;
+        this.y = 581;
+        this.width = 35;
+        this.height = 46.2638;
         this.xFrame = 0;
         this.yFrame = 0;
         this.xFramesCount = 3;
@@ -13,12 +14,12 @@ class Player {
         this.image.src = '../img/player-sprite.png';
         this.isReady = false;
         this.image.onload = () => {
-            this.height = this.image.height / this.width;
             this.isReady = true;
         }
 
         this.actions = {
             canClimb: false,
+            isClimbing: false,
         }
 
         this.movements = {

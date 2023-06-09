@@ -1,18 +1,21 @@
 class Game {
     constructor(ctx) {
         this.ctx = ctx
+        this.nubes =  new Nubes(this.ctx);
         this.background = new Background(this.ctx);
         this.player = new Player(ctx, this)
         this.stairs = [
-            new Obstacle(ctx, 400, 416, true),
-            new Obstacle(ctx, 715, 416, true),
-            new Obstacle(ctx, 850, 310, false),
-            new Obstacle(ctx, 264, 310, false),
-            new Obstacle(ctx, 715, 203, false),
-            new Obstacle(ctx, 400, 203, false),
+            new Obstacle(ctx, 397, 398, true),
+            new Obstacle(ctx, 270, 294, false),
+            new Obstacle(ctx, 397, 188, false),
+            
+            new Obstacle(ctx, 727, 398, true),
+            new Obstacle(ctx, 855, 294, false),
+            new Obstacle(ctx, 727, 188, false),
+
         ]
         this.plantas = [
-            new Planta(ctx, this.ctx.canvas.width - 85, 563),
+            new Planta(ctx, this.ctx.canvas.width - 85, 580),
             new Planta(ctx, this.ctx.canvas.width - 40, 563),
         ]
 
@@ -20,7 +23,7 @@ class Game {
 
         this.intervalId = null;
         this.counter = 0;
-        //this.score = new Score();
+        this.score = new Score(ctx);
 
     }
     start() {
@@ -29,6 +32,7 @@ class Game {
             this.checkCollisions()
             this.move();
             this.draw();
+            this.endGame()
 
             this.counter++;
         }, 1000 / 60);
@@ -38,7 +42,9 @@ class Game {
 
     draw() {
         this.ctx.imageSmoothingEnabled = false
+        this.nubes.draw();
         this.background.draw();
+        this.score.draw();
 
         this.stairs.forEach(obs => {
             obs.draw();
@@ -52,7 +58,10 @@ class Game {
 
 
     move() {
+        this.nubes.move();
+        this.score.move();
         this.player.move();
+
     }
 
     clear() {
@@ -63,41 +72,36 @@ class Game {
         const stairsCollision = this.stairs.some((obs) => obs.collidesWith(this.player));
         if (stairsCollision) {
             this.player.actions.canClimb = true;
-            if (this.player.actions.canClimb && this.player.y < 550) {
-                this.player.movements.left = false;
+            if (this.player.actions.canClimb && this.player.movements.up) {
+                this.player.actions.isClimbing = true;
+                if(this.player.actions.isClimbing){
+                    this.player.movements.left = false;
                 this.player.movements.right = false;
+                }    
             }
-           // console.log('puedo subir')
+           console.log('puedo subir')
 
         } else {
             this.player.actions.canClimb = false;
-           // console.log('no puedo subir')
+           console.log('no puedo subir')
 
         }
 
-        /*if (this.player.movements.space) {
-            let plantsCollision = false;
-            let collisionIndex = -1;
-            this.plantas.some((planta, index) => {
-                if (planta.collidesWith(this.player)) {
-                    plantsCollision = true;
-                    collisionIndex = index;
-                    return true;
-                }
-            });
-            if (plantsCollision) {*/
+
+
+
         this.plantas.some((obs, index) => {
             const plantsCollision = obs.collidesWith(this.player);
-console.log('obs is taken')
-            if (plantsCollision && !obs.isTaken) {
+//console.log('obs is taken')
+            if (plantsCollision && !obs.isTaken && !this.player.isHoldingPlant) {
                 this.plantas.splice(index, 1);
                 this.player.isHoldingPlant = true;
 
             } else if (this.player.isHoldingPlant && this.player.movements.space) 
             {
                 this.addObstacle();
-                console.log('dejo la planta')
-               // this.score ++
+                this.player.isHoldingPlant = false;
+               this.score.points ++
             }
         });
     }
@@ -154,5 +158,18 @@ console.log('obs is taken')
         
     }
 
-
+    endGame(){
+        if(this.score.points === 2){
+            clearInterval(this.intervalId);
+            setTimeout(() => {
+              this.ctx.font = '56px Arial';
+              this.ctx.fillStyle = 'red';
+              this.ctx.fillText(
+                'Has logrado salvar a tu comunidad',
+                this.ctx.canvas.width / 2 - 150,
+                this.ctx.canvas.height / 2,
+                300);
+            }, 10);
+          }
+    }
 }
