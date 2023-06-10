@@ -1,9 +1,9 @@
 class Planta {
     constructor(ctx, x, y, isTaken=false){
        this.ctx = ctx,
-       this.x = x;
+        this.x = x;
         this.y = y;
-        this.width = 35;
+        this.width = 30;
         this.image = new Image();
         this.image.src = '../img/planta.png';
         this.isReady = false;

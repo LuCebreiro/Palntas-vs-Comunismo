@@ -1,5 +1,5 @@
-class Obstacle {
-    constructor(ctx, x, y, large) {
+class Escalera {
+    constructor(ctx, x, y, large, level) {
         this.ctx = ctx,
             this.x = x;
         this.y = y;
@@ -11,6 +11,7 @@ class Obstacle {
             this.height = this.width * this.image.height / this.image.width;
             this.isReady = true;
         }
+        this.level = level;
     }
 
     draw() {
@@ -38,12 +39,5 @@ class Obstacle {
 
         return isColliding;
 
-        /*const totalArea = this.width * this.height;
-        const overlapX = Math.max(0, Math.min(this.x + this.width, element.x + element.width) - Math.max(this.x, element.x));
-        const overlapY = Math.max(0, Math.min(this.y + this.height, element.y + element.height) - Math.max(this.y, element.y));
-        const overlapArea = overlapX * overlapY;
-        const collisionPercentage = (overlapArea / totalArea) * 100;
-    
-        return collisionPercentage >= 17;*/
     }
 }

@@ -4,8 +4,8 @@ class Player {
         this.game = game;
         this.x = 550;
         this.y = 581;
-        this.width = 35;
-        this.height = 46.2638;
+        this.width = 30;
+        this.height = 38.6995;
         this.xFrame = 0;
         this.yFrame = 0;
         this.xFramesCount = 3;
@@ -51,14 +51,15 @@ class Player {
                 this.height
             );
             this.ctx.beginPath();
-      this.ctx.rect(this.x, this.y, this.width, this.height);
-      this.ctx.stroke();
+            this.ctx.rect(this.x, this.y, this.width, this.height);
+            this.ctx.stroke();
         }
     }
 
     move() {
         const isStop = Object.values(this.movements).every(value => value === false);
-        if (this.movements.left) {
+        if (this.movements.left && !this.actions.isClimbing) {
+
             this.yFrame = 1;
             this.x -= this.vx;
             if (this.game.counter % 10 === 0) {
@@ -67,7 +68,8 @@ class Player {
                     this.xFrame = 0;
                 }
             }
-        } else if (this.movements.right) {
+        } else if (this.movements.right && !this.actions.isClimbing) {
+
             this.yFrame = 2;
             this.x += this.vx;
             if (this.game.counter % 10 === 0) {
@@ -99,27 +101,27 @@ class Player {
             this.yFrame = 0;
         }
 
-        if(this.x < this.ctx.canvas.width/2) {
-            if(this.x < 260 && this.y <= 426-this.height){
-            this.x = 260
-        }else if(this.x - this.width > 415 && this.y <= 426-this.height){
-            this.x = 415
-        }} else {
-            console.log('derecha')
-        if(this.x < 690 && this.y <= 426-this.height){
-            this.x = 720
-        }else if(this.x - this.width > 900 && this.y <= 426-this.height){
-            this.x = 900
+        if (this.x < this.ctx.canvas.width / 2) {
+            if (this.x < LEVELS[game.levelSelected].plataformas[0].x && this.y + this.height <= LEVELS[game.levelSelected].plataformas[0].y) {
+                this.x = LEVELS[game.levelSelected].plataformas[0].x
+            } if (this.x + this.width > LEVELS[game.levelSelected].plataformas[0].x + LEVELS[game.levelSelected].plataformas[0].width && this.y + this.height <= LEVELS[game.levelSelected].plataformas[0].y) {
+                this.x = LEVELS[game.levelSelected].plataformas[0].x + LEVELS[game.levelSelected].plataformas[0].width - this.width
+            }
+        }else {
+            if (this.x < LEVELS[game.levelSelected].plataformas[3].x && this.y + this.height <= LEVELS[game.levelSelected].plataformas[0].y) {
+                this.x = LEVELS[game.levelSelected].plataformas[3].x
+            } if (this.x + this.width > LEVELS[game.levelSelected].plataformas[3].x + LEVELS[game.levelSelected].plataformas[3].width && this.y + this.height <= LEVELS[game.levelSelected].plataformas[3].y) {
+                this.x = LEVELS[game.levelSelected].plataformas[3].x + LEVELS[game.levelSelected].plataformas[3].width - this.width
+            }
         }
-    }
 
 
 
 
-    /*if (!this.actions.canClimb && this.y >= this.ctx.canvas.height - this.height - 35) {
-            this.y = this.ctx.canvas.height - this.height - 35;
-            this.vy = 0;
-        }*/
+        /*if (!this.actions.canClimb && this.y >= this.ctx.canvas.height - this.height - 35) {
+                this.y = this.ctx.canvas.height - this.height - 35;
+                this.vy = 0;
+            }*/
     }
 
     onKeyEvent(event) {
@@ -139,9 +141,10 @@ class Player {
                 case KEY_DOWN:
                     this.movements.down = status;
                     break;
-                    case KEY_SPACE:
-                        this.movements.space = status;
-                        break;
+                case KEY_SPACE:
+                    this.movements.space = status;
+                    break;
             }
         }
-    }}
+    }
+}

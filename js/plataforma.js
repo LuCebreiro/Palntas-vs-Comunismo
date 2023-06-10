@@ -1,9 +1,9 @@
 class Plataforma {
-    constructor(ctx, x, y){
+    constructor(ctx, x, y, width){
        this.ctx = ctx,
        this.x = x;
         this.y = y;
-        this.width = 176;
+        this.width = width;
         this.image = new Image();
         this.image.src = '../img/plataforma.png';
         this.isReady = false;
