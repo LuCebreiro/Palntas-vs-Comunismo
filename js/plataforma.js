@@ -23,9 +23,7 @@ class Plataforma {
                 this.height
             
             );
-            this.ctx.beginPath();
-      this.ctx.rect(this.x, this.y, this.width, this.height);
-      this.ctx.stroke();
+
         }
     }
 

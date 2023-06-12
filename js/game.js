@@ -3,14 +3,14 @@ class Game {
         this.ctx = ctx
         this.levelSelected = 0;
         this.nubes = new Nubes(this.ctx);
-        this.background = new Background(this.ctx, LEVELS[this.levelSelected].background);
+        this.background = new Background(this.ctx);
         this.obstacles = []
         this.player = new Player(ctx, this)
         this.floors = LEVELS[this.levelSelected].floors;
         this.stairs = LEVELS[this.levelSelected].escaleras.map((escalera) => {
             return new Escalera(ctx, escalera.x, escalera.y, escalera.large, escalera.level);
         });
-        this.scoreBlock = new ScoreBlock(ctx, 100, 30, LEVELS[this.levelSelected].score);
+        this.scoreBlock = new ScoreBlock(ctx, 20, 30, LEVELS[this.levelSelected].score);
 
         this.plantas = LEVELS[this.levelSelected].plantas.map((planta) => {
             return new Planta(ctx, planta.x, planta.y, planta.isTaken);
@@ -25,7 +25,8 @@ class Game {
         this.intervalId = null;
         this.counter = 0;
 
-
+        this.transitioningLevel = false;
+        
 
     }
     start() {
@@ -49,7 +50,7 @@ class Game {
         this.ctx.imageSmoothingEnabled = false
         this.nubes.draw();
         this.background.draw();
-        
+
         this.scoreBlock.draw();
         this.plataformas.forEach(obs => {
             obs.draw();
@@ -112,20 +113,25 @@ class Game {
         this.plantas.some((obs, index) => {
             const plantsCollision = obs.collidesWith(this.player);
             // console.log(plantsCollision)
-            if (plantsCollision && !obs.isTaken && !this.player.isHoldingPlant) {
+            if (plantsCollision && !obs.isTaken && !this.player.isHoldingPlant && this.player.movements.space) {
                 this.plantas.splice(index, 1);
                 this.player.isHoldingPlant = true;
-
+                this.player.movements.space = false;
             } else if (this.player.isHoldingPlant && this.player.movements.space) {
                 this.addPlants();
                 this.player.isHoldingPlant = false;
-                this.scoreBlock.scored++
+                this.scoreBlock.scored++;
+                this.player.movements.space = false;
                 //sumar en score y en scoreblock
             }
         });
 
-        if (this.scoreBlock.scored === LEVELS[this.levelSelected].score) {
-            this.nextLevel();
+        if (this.scoreBlock.scored === LEVELS[this.levelSelected].score && !this.transitioningLevel) {
+            this.transitioningLevel = true;
+            setTimeout(() => {
+                this.nextLevel();
+                this.transitioningLevel = false;
+            }, 1000);
         }
 
         this.obstacles.forEach((obs) => {
@@ -133,7 +139,6 @@ class Game {
                 this.player.x <= obs.x + obs.width &&
                 this.player.y + this.player.height >= obs.y &&
                 this.player.y <= obs.y + obs.height) {
-                    console.log('colisiono')
                 this.gameOver();
             }
         });
@@ -146,11 +151,11 @@ class Game {
     }
 
     addObstacle() {
-        if (this.levelSelected > 0){
-        const randomX = Math.floor(Math.random() * (this.ctx.canvas.width - 30));
-        const randomXFrame = Math.floor(Math.random() * 5);
-        const newObstacle = new Obstaculo(this.ctx, randomX, randomXFrame);
-        this.obstacles.push(newObstacle);
+        if (this.levelSelected > 0) {
+            const randomX = Math.floor(Math.random() * (this.ctx.canvas.width - 30));
+            const randomXFrame = Math.floor(Math.random() * 5);
+            const newObstacle = new Obstaculo(this.ctx, randomX, randomXFrame);
+            this.obstacles.push(newObstacle);
         }
     }
 
@@ -158,45 +163,60 @@ class Game {
         if (this.levelSelected < LEVELS.length - 1) {
             this.levelSelected++;
             this.reset();
-            
+
         } else {
-            this.gameOver();
+            console.log('colisiono')
+            this.winGame();
         }
     }
 
-    reset(){
+    reset() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.background = new Background(ctx, LEVELS[this.levelSelected].background);
-            this.floors = LEVELS[this.levelSelected].floors;
-            this.stairs = LEVELS[this.levelSelected].escaleras.map((escalera) => {
-                return new Escalera(ctx, escalera.x, escalera.y, escalera.large, escalera.level);
-            });
-            this.scoreBlock = new ScoreBlock(ctx, 100, 30, LEVELS[this.levelSelected].score);
+        this.floors = LEVELS[this.levelSelected].floors;
+        this.stairs = LEVELS[this.levelSelected].escaleras.map((escalera) => {
+            return new Escalera(ctx, escalera.x, escalera.y, escalera.large, escalera.level);
+        });
+        this.scoreBlock = new ScoreBlock(ctx, 100, 30, LEVELS[this.levelSelected].score);
 
-            this.plantas = LEVELS[this.levelSelected].plantas.map((planta) => {
-                return new Planta(ctx, planta.x, planta.y, planta.isTaken);
-            });
+        this.plantas = LEVELS[this.levelSelected].plantas.map((planta) => {
+            return new Planta(ctx, planta.x, planta.y, planta.isTaken);
+        });
 
-            this.plataformas = LEVELS[this.levelSelected].plataformas.map((plataforma) => {
-                return new Plataforma(ctx, plataforma.x, plataforma.y, plataforma.width)
-            });
+        this.plataformas = LEVELS[this.levelSelected].plataformas.map((plataforma) => {
+            return new Plataforma(ctx, plataforma.x, plataforma.y, plataforma.width)
+        });
 
-            this.takenPlants = [];
-            this.player.x = 550;
-            this.player.y = 581;
+        this.takenPlants = [];
+        this.player.x = 550;
+        this.player.y = 581;
 
+    }
+
+    winGame() {
+        clearInterval(this.intervalId);
+        setTimeout(() => {
+            this.ctx.font = '56px Arial';
+            this.ctx.fillStyle = 'red';
+            this.ctx.fillText(
+                'Has logrado salvar a tu comunidad',
+                this.ctx.canvas.width / 2 - 150,
+                this.ctx.canvas.height / 2,
+                300);
+        }, 1000);
     }
 
     gameOver() {
-            clearInterval(this.intervalId);
-            setTimeout(() => {
-                this.ctx.font = '56px Arial';
-                this.ctx.fillStyle = 'red';
-                this.ctx.fillText(
-                    'Has logrado salvar a tu comunidad',
-                    this.ctx.canvas.width / 2 - 150,
-                    this.ctx.canvas.height / 2,
-                    300);
-            }, 1000);
-        }
+        clearInterval(this.intervalId);
+        setTimeout(() => {
+            this.ctx.fillStyle = 'black',
+                this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+            this.ctx.font = '56px Arial';
+            this.ctx.fillStyle = 'red';
+            this.ctx.fillText(
+                'Tus contrincantes han logrado su proposito',
+                this.ctx.canvas.width / 2 - 150,
+                this.ctx.canvas.height / 2,
+                300);
+        }, 250);
     }
+}

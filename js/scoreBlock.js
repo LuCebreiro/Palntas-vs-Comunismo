@@ -5,8 +5,8 @@ class ScoreBlock {
         this.y = y;
         this.score = score;
         this.scored = 0;
-        this.width = 31;
-        this.height = 64;
+        this.width = 12;
+        this.height = 30;
         this.isReady = false;
 
         this.imgStartRed = new Image()

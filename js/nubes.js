@@ -2,7 +2,7 @@ class Nubes{
     constructor(ctx){
         this.ctx = ctx;
         this.image = new Image()
-        this.image.src = '../img/nubes.png'
+        this.image.src = '../img/nubes-2.png'
         this.width = this.ctx.canvas.width;
         this.height = this.ctx.canvas.height;
         this.x = 0;
@@ -34,7 +34,7 @@ class Nubes{
     }
 
     move() {
-        this.x -= 1;
+        this.x -= 0.3;
     
         if (this.x < -this.width) {
           this.x = 0;

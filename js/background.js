@@ -1,12 +1,12 @@
 class Background{
-    constructor(ctx, imageSrc){
+    constructor(ctx){
         this.ctx = ctx;
         this.x = 0;
         this.y = 0;
         this.width = this.ctx.canvas.width;
         this.height = this.ctx.canvas.height;
         this.image = new Image()
-        this.image.src = imageSrc
+        this.image.src = '../img/Fondo-Edificio.png'
         this.isReady = false;
         this.image.onload = () => {
             this.isReady = true;
