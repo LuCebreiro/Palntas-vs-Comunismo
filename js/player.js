@@ -101,6 +101,13 @@ class Player {
             this.yFrame = 0;
         }
 
+        if (this.x <= 0){
+            this.x = 0
+        }
+        if (this.x >= this.ctx.canvas.width - this.width) {
+            this.x = this.ctx.canvas.width - this.width;
+          }
+
         if (this.x < this.ctx.canvas.width / 2) {
             if (this.x < LEVELS[game.levelSelected].plataformas[0].x && this.y + this.height <= LEVELS[game.levelSelected].plataformas[0].y) {
                 this.x = LEVELS[game.levelSelected].plataformas[0].x
@@ -114,14 +121,6 @@ class Player {
                 this.x = LEVELS[game.levelSelected].plataformas[3].x + LEVELS[game.levelSelected].plataformas[3].width - this.width
             }
         }
-
-
-
-
-        /*if (!this.actions.canClimb && this.y >= this.ctx.canvas.height - this.height - 35) {
-                this.y = this.ctx.canvas.height - this.height - 35;
-                this.vy = 0;
-            }*/
     }
 
     onKeyEvent(event) {
