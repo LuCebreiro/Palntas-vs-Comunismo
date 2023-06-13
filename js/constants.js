@@ -39,7 +39,6 @@ const LEVEL_1= {
 }
 
 const LEVEL_2= {
-    background: "../img/Fondo-Edificio.png",
 
     //scoreBarImage: "../img/score.png",
     //scoreFrames: 3,
@@ -80,6 +79,7 @@ const LEVEL_2= {
     ],
 
     score: 6,
+    
 
 
 }

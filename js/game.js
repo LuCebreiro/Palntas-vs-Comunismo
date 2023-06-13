@@ -2,8 +2,7 @@ class Game {
     constructor(ctx) {
         this.ctx = ctx
         this.levelSelected = 0;
-        this.nubes = new Nubes(this.ctx);
-        this.background = new Background(this.ctx);
+        this.background = new Background(this.ctx, this, this.ctx.canvas.height);
         this.obstacles = []
         this.player = new Player(ctx, this)
         this.floors = LEVELS[this.levelSelected].floors;
@@ -20,13 +19,17 @@ class Game {
             return new Plataforma(ctx, plataforma.x, plataforma.y, plataforma.width)
         });
 
+        this.enemigo = new Enemigo(this.ctx, this)
+
         this.takenPlants = [];
 
         this.intervalId = null;
         this.counter = 0;
 
         this.transitioningLevel = false;
-        
+
+        this.score = 0
+
 
     }
     start() {
@@ -37,7 +40,7 @@ class Game {
             this.draw();
             this.counter++;
 
-            if (this.counter % 120 === 0) {
+            if (this.levelSelected > 0 && this.counter % 120 === 0) {
                 this.addObstacle();
             }
 
@@ -48,7 +51,6 @@ class Game {
 
     draw() {
         this.ctx.imageSmoothingEnabled = false
-        this.nubes.draw();
         this.background.draw();
 
         this.scoreBlock.draw();
@@ -64,21 +66,27 @@ class Game {
         this.obstacles.forEach((obs) => {
             obs.draw();
         });
+
+        this.enemigo.draw();
+
         this.player.draw();
     }
 
 
     move() {
-        this.nubes.move();
+        this.background.move();
         this.player.move();
         this.obstacles.forEach((obs) => {
             obs.move();
         });
-
+        setTimeout(() => {
+            this.enemigo.move();
+        }, 1000);
     }
 
     clear() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.obstacles = this.obstacles.filter((obstacle) => obstacle.y < this.ctx.canvas.height);
     }
 
     checkCollisions() {
@@ -121,6 +129,12 @@ class Game {
                 this.addPlants();
                 this.player.isHoldingPlant = false;
                 this.scoreBlock.scored++;
+                this.score++;
+                //this.background.gradientPoint -= 200;
+                console.log(this.score)
+                /*if (this.score) {
+                    this.nubes.updateScore(this.score)
+                }*/
                 this.player.movements.space = false;
                 //sumar en score y en scoreblock
             }
@@ -145,24 +159,38 @@ class Game {
 
     }
     addPlants() {
-        const newPlant = new Planta(this.ctx, this.player.x + this.player.width + 1, this.player.y, true);
+        const newPlant = new Planta(this.ctx, this.player.x + this.player.width + 1, this.player.y + 5, true);
         this.plantas.push(newPlant);
 
     }
 
-    addObstacle() {
-        if (this.levelSelected > 0) {
-            const randomX = Math.floor(Math.random() * (this.ctx.canvas.width - 30));
-            const randomXFrame = Math.floor(Math.random() * 5);
-            const newObstacle = new Obstaculo(this.ctx, randomX, randomXFrame);
-            this.obstacles.push(newObstacle);
+    addEnemy() {
+        if (this.levelSelected > 0 && !this.enemigo) {
+            this.enemigo = new Enemigo(this.ctx, this);
         }
+
+    }
+
+
+    addObstacle() {
+        const randomXFrame = Math.floor(Math.random() * 5);
+        const newObstacle = new Obstaculo(this.ctx, this.enemigo.x, randomXFrame);
+        this.obstacles.push(newObstacle);
+
     }
 
     nextLevel() {
+
         if (this.levelSelected < LEVELS.length - 1) {
-            this.levelSelected++;
-            this.reset();
+            clearInterval(this.intervalId);
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.font = '32px Arial';
+            this.ctx.fillText('pasando de nivel', (this.ctx.canvas.width / 2) - 50, (this.ctx.canvas.height / 2) - 20);
+            setTimeout(() => {
+                this.levelSelected++;
+                this.reset();
+                this.start();
+            }, 5000);
 
         } else {
             console.log('colisiono')
@@ -185,10 +213,14 @@ class Game {
         this.plataformas = LEVELS[this.levelSelected].plataformas.map((plataforma) => {
             return new Plataforma(ctx, plataforma.x, plataforma.y, plataforma.width)
         });
+        this.obstacles = []
+
+        this.enemigo = new Enemigo(this.ctx, this)
 
         this.takenPlants = [];
         this.player.x = 550;
         this.player.y = 581;
+        this.score = 0;
 
     }
 

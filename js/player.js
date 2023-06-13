@@ -4,8 +4,8 @@ class Player {
         this.game = game;
         this.x = 550;
         this.y = 581;
-        this.width = 30;
-        this.height = 38.6995;
+        this.width = 35;
+        this.height = 45.1494 ;
         this.xFrame = 0;
         this.yFrame = 0;
         this.xFramesCount = 3;
@@ -50,9 +50,6 @@ class Player {
                 this.width,
                 this.height
             );
-            this.ctx.beginPath();
-            this.ctx.rect(this.x, this.y, this.width, this.height);
-            this.ctx.stroke();
         }
     }
 

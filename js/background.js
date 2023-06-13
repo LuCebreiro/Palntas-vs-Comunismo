@@ -1,28 +1,76 @@
-class Background{
-    constructor(ctx){
+class Background {
+    constructor(ctx, game, gradientPoint) {
         this.ctx = ctx;
+        this.game = game;
+        this.gradient = null;
         this.x = 0;
         this.y = 0;
         this.width = this.ctx.canvas.width;
         this.height = this.ctx.canvas.height;
-        this.image = new Image()
-        this.image.src = '../img/Fondo-Edificio.png'
+        this.imageNubes = new Image()
+        this.imageNubes.src = '../img/nubes-3.png'
+        this.imageMadrid = new Image()
+        this.imageMadrid.src = '../img/Fondo-Madrid.png'
+        this.imageEdificio = new Image()
+        this.imageEdificio.src = '../img/Fondo-Edificio-3.png'
         this.isReady = false;
-        this.image.onload = () => {
+        this.imageEdificio.onload = () => {
             this.isReady = true;
         }
-
+        this.gradientPoint = 650;
+        this.createGradient();
+       
     }
 
-    draw(){
-        if(this.isReady){
-            this.ctx.drawImage(
-                this.image,
-                this.x,
-                this.y,
-                this.width,
-                this.height,
-            );
+    draw() {
+       
+            this.ctx.fillStyle = this.gradient;
+    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    if (this.isReady) {
+    this.ctx.drawImage(
+        this.imageMadrid,
+        0,
+        0,
+        this.width,
+        this.height
+    )
+    this.ctx.drawImage(
+        this.imageNubes,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+    )
+    this.ctx.drawImage(
+        this.imageNubes,
+        this.x + this.width,
+        this.y,
+        this.width,
+        this.height
+    )
+
+    this.ctx.drawImage(
+        this.imageEdificio,
+        0,
+        0,
+        this.width,
+        this.height
+    );
         }
     }
-}
+    move() {
+        this.x -= 0.3;
+    
+        if (this.x < -this.width) {
+            this.x = 0;
+        }
+    }
+    
+    createGradient() {
+        this.gradient = this.ctx.createLinearGradient(0, 0, 0, this.gradientPoint);
+        this.gradient.addColorStop(0, 'rgb(119, 136, 153');
+        this.gradient.addColorStop(1, 'rgb(135, 206, 255)');
+    }
+    
+      
+    }

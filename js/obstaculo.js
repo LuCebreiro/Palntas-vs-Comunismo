@@ -2,7 +2,7 @@ class Obstaculo {
   constructor(ctx, x, xFrame) {
     this.ctx = ctx;
     this.x = x;
-    this.y = -30;
+    this.y = 70;
     this.width = 30;
     this.height = 30;
     this.xFrame = xFrame;
