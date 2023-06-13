@@ -3,9 +3,9 @@ class Player {
         this.ctx = ctx;
         this.game = game;
         this.x = 550;
-        this.y = 581;
+        this.y = 565;
         this.width = 35;
-        this.height = 45.1494 ;
+        this.height = 54.8916 ;
         this.xFrame = 0;
         this.yFrame = 0;
         this.xFramesCount = 3;

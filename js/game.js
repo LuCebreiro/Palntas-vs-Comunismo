@@ -28,8 +28,13 @@ class Game {
 
         this.transitioningLevel = false;
 
-        this.score = 0
+        this.score = 0;
 
+        this.music = new Audio();
+        this.music.src = '../audio/himno-pp-merengue.mp3';
+        this.music.loop = true;
+        this.music.volume = 0.1;
+        
 
     }
     start() {
@@ -159,7 +164,7 @@ class Game {
 
     }
     addPlants() {
-        const newPlant = new Planta(this.ctx, this.player.x + this.player.width + 1, this.player.y + 5, true);
+        const newPlant = new Planta(this.ctx, this.player.x + this.player.width + 1, this.player.y + 15, true);
         this.plantas.push(newPlant);
 
     }
@@ -186,12 +191,16 @@ class Game {
             this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             this.ctx.font = '32px Arial';
             this.ctx.fillText('pasando de nivel', (this.ctx.canvas.width / 2) - 50, (this.ctx.canvas.height / 2) - 20);
+            const image = new Image ();
+            image.onload = () => {
+            image.src =  './img/FONDO-INICIO.png'
+            this.ctx.drawImage(image, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height)}
             setTimeout(() => {
                 this.levelSelected++;
                 this.reset();
                 this.start();
             }, 5000);
-
+        
         } else {
             console.log('colisiono')
             this.winGame();

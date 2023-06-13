@@ -17,4 +17,6 @@ startButton.addEventListener('click', () => {
 
   startButton.setAttribute('disabled', true);
   game.start();
+  game.music.play();
+
 });

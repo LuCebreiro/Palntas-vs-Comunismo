@@ -17,7 +17,8 @@ class Enemigo {
             this.isReady = true;
         }
 
-        this.speedX = 5;
+        this.speedX = 2;
+        this.direction = null;
 
     }
 
@@ -39,27 +40,21 @@ class Enemigo {
 
     move() {
         this.x += this.speedX
+        if (this.game.counter % 10 === 0) {
+            this.xFrame++;
+            if (this.xFrame >= this.xFramesCount) {
+                this.xFrame = 0;
+            }}
 
 
         if (this.x <= 220) {
             this.speedX = Math.abs(this.speedX)
             this.yFrame = 2;
-            if (this.game.counter % 10 === 0) {
-                this.xFrame++;
-                if (this.xFrame >= this.xFramesCount) {
-                    this.xFrame = 0;
-                }
-
-            }}
+           
+            }
             if (this.x + this.width >= 940) {
                 this.speedX = -Math.abs(this.speedX);
                 this.yFrame = 1;
-                if (this.game.counter % 10 === 0) {
-                    this.xFrame++;
-                    if (this.xFrame >= this.xFramesCount) {
-                        this.xFrame = 0;
-                    }
-                }
 
 
 
