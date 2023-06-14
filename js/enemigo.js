@@ -1,5 +1,5 @@
 class Enemigo {
-    constructor(ctx, game) {
+    constructor(ctx, game, randomMove, speed) {
         this.ctx = ctx;
         this.game = game;
         this.x = this.ctx.canvas.width / 2;
@@ -17,8 +17,8 @@ class Enemigo {
             this.isReady = true;
         }
 
-        this.speedX = 2;
-        this.direction = null;
+        this.speedX = speed;
+        this.randomMove = randomMove;
 
     }
 
@@ -39,7 +39,28 @@ class Enemigo {
     }
 
     move() {
+
+        if(this.randomMove){
+            const randomMove = Math.random();
+            console.log(randomMove)
+            if (randomMove <= 0.02){
+                this.speedX*=-1
+            }
+        }
+
         this.x += this.speedX
+
+       
+
+        if(this.speedX >0){
+            this.yFrame = 2;
+        }else if (this.speedX < 0){ 
+            this.yFrame = 1;
+        }else {
+            this.yFrame = 0;
+        }
+            
+            
         if (this.game.counter % 10 === 0) {
             this.xFrame++;
             if (this.xFrame >= this.xFramesCount) {
@@ -49,14 +70,11 @@ class Enemigo {
 
         if (this.x <= 220) {
             this.speedX = Math.abs(this.speedX)
-            this.yFrame = 2;
+    
            
             }
             if (this.x + this.width >= 940) {
                 this.speedX = -Math.abs(this.speedX);
-                this.yFrame = 1;
-
-
 
             }
         }

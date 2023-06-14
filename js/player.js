@@ -98,11 +98,11 @@ class Player {
             this.yFrame = 0;
         }
 
-        if (this.x <= 0){
-            this.x = 0
+        if (this.x <= 10){
+            this.x = 10
         }
-        if (this.x >= this.ctx.canvas.width - this.width) {
-            this.x = this.ctx.canvas.width - this.width;
+        if (this.x >= this.ctx.canvas.width - this.width -10 ) {
+            this.x = this.ctx.canvas.width - this.width -10;
           }
 
         if (this.x < this.ctx.canvas.width / 2) {

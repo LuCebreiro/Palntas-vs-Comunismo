@@ -9,7 +9,7 @@ class Game {
         this.stairs = LEVELS[this.levelSelected].escaleras.map((escalera) => {
             return new Escalera(ctx, escalera.x, escalera.y, escalera.large, escalera.level);
         });
-        this.scoreBlock = new ScoreBlock(ctx, 20, 30, LEVELS[this.levelSelected].score);
+        this.scoreBlock = new ScoreBlock(ctx, 55, 30, LEVELS[this.levelSelected].score);
 
         this.plantas = LEVELS[this.levelSelected].plantas.map((planta) => {
             return new Planta(ctx, planta.x, planta.y, planta.isTaken);
@@ -19,7 +19,7 @@ class Game {
             return new Plataforma(ctx, plataforma.x, plataforma.y, plataforma.width)
         });
 
-        this.enemigo = new Enemigo(this.ctx, this)
+        this.enemigo = null;
 
         this.takenPlants = [];
 
@@ -34,7 +34,7 @@ class Game {
         this.music.src = '../audio/himno-pp-merengue.mp3';
         this.music.loop = true;
         this.music.volume = 0.1;
-        
+
 
     }
     start() {
@@ -45,7 +45,7 @@ class Game {
             this.draw();
             this.counter++;
 
-            if (this.levelSelected > 0 && this.counter % 120 === 0) {
+            if (this.levelSelected > 0 && this.counter % LEVELS[this.levelSelected].obsSpeed === 0) {
                 this.addObstacle();
             }
 
@@ -72,7 +72,7 @@ class Game {
             obs.draw();
         });
 
-        this.enemigo.draw();
+        this.enemigo && this.enemigo.draw();
 
         this.player.draw();
     }
@@ -85,7 +85,7 @@ class Game {
             obs.move();
         });
         setTimeout(() => {
-            this.enemigo.move();
+            this.enemigo && this.enemigo.move();
         }, 1000);
     }
 
@@ -135,7 +135,8 @@ class Game {
                 this.player.isHoldingPlant = false;
                 this.scoreBlock.scored++;
                 this.score++;
-                //this.background.gradientPoint -= 200;
+                this.background.gradientPoint -= LEVELS[this.levelSelected].degradado;
+
                 console.log(this.score)
                 /*if (this.score) {
                     this.nubes.updateScore(this.score)
@@ -169,12 +170,6 @@ class Game {
 
     }
 
-    addEnemy() {
-        if (this.levelSelected > 0 && !this.enemigo) {
-            this.enemigo = new Enemigo(this.ctx, this);
-        }
-
-    }
 
 
     addObstacle() {
@@ -189,18 +184,19 @@ class Game {
         if (this.levelSelected < LEVELS.length - 1) {
             clearInterval(this.intervalId);
             this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-            this.ctx.font = '32px Arial';
-            this.ctx.fillText('pasando de nivel', (this.ctx.canvas.width / 2) - 50, (this.ctx.canvas.height / 2) - 20);
-            const image = new Image ();
-            image.onload = () => {
-            image.src =  './img/FONDO-INICIO.png'
-            this.ctx.drawImage(image, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height)}
+            const image = new Image();
+            image.src = './img/FONDO-INICIO.png'
+            this.ctx.drawImage(image, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.font = '65px VT323';
+            this.ctx.fillStyle = '#444345';
+            ctx.textAlign = "center";
+            this.ctx.fillText('¡La contaminación ha bajado gracias a ti!', (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2));
             setTimeout(() => {
                 this.levelSelected++;
                 this.reset();
                 this.start();
-            }, 5000);
-        
+            }, 3500);
+
         } else {
             console.log('colisiono')
             this.winGame();
@@ -224,40 +220,51 @@ class Game {
         });
         this.obstacles = []
 
-        this.enemigo = new Enemigo(this.ctx, this)
+        this.enemigo = new Enemigo(this.ctx, this, LEVELS[this.levelSelected].randomMove, LEVELS[this.levelSelected].speed)
 
         this.takenPlants = [];
         this.player.x = 550;
-        this.player.y = 581;
+        this.player.y = 565;
         this.score = 0;
+
+        this.background.gradientPoint = 650;
 
     }
 
     winGame() {
         clearInterval(this.intervalId);
-        setTimeout(() => {
-            this.ctx.font = '56px Arial';
-            this.ctx.fillStyle = 'red';
-            this.ctx.fillText(
-                'Has logrado salvar a tu comunidad',
-                this.ctx.canvas.width / 2 - 150,
-                this.ctx.canvas.height / 2,
-                300);
-        }, 1000);
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        const image = new Image();
+        image.src = './img/FONDO-WIN.png';
+        image.onload = () => {
+            this.ctx.drawImage(image, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.font = '65px VT323';
+            this.ctx.fillStyle = '#444345';
+            ctx.textAlign = "center";
+            this.ctx.fillText('¡Enhorabuena! ¡Has salvado a tu Comunidad!', (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2));
+            this.showResetButton ();
+        }
+
     }
 
     gameOver() {
         clearInterval(this.intervalId);
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         setTimeout(() => {
-            this.ctx.fillStyle = 'black',
-                this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
-            this.ctx.font = '56px Arial';
-            this.ctx.fillStyle = 'red';
-            this.ctx.fillText(
-                'Tus contrincantes han logrado su proposito',
-                this.ctx.canvas.width / 2 - 150,
-                this.ctx.canvas.height / 2,
-                300);
+            const image = new Image();
+            image.src = './img/FONDO-WIN.png';
+            image.onload = () => {
+                this.ctx.drawImage(image, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+                this.ctx.font = '65px VT323';
+                this.ctx.fillStyle = '#444345';
+                ctx.textAlign = "center";
+                this.ctx.fillText('El comunismo ha ganado esta vez...', (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2));
+                this.showResetButton ();
+            }
         }, 250);
+    }
+
+    showResetButton (){
+        reloadButton.classList.remove('hidden')
     }
 }

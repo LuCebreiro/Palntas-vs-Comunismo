@@ -1,6 +1,9 @@
 const canvas = document.querySelector('#my-canvas');
+
+
 const ctx = canvas.getContext('2d');
 const startButton = document.querySelector('#start-button');
+const reloadButton = document.querySelector('#reload-button');
 const startPage = document.querySelector('.container');
 const canvasGame = document.querySelector('.game-container');
 
@@ -19,4 +22,8 @@ startButton.addEventListener('click', () => {
   game.start();
   game.music.play();
 
+});
+
+reloadButton.addEventListener('click', () => {
+  document.location.reload()
 });

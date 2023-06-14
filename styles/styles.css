@@ -26,14 +26,11 @@ body {
     background-size: cover;
     width: 1150px;
     height: 650px;
-    margin-top: 100px;
+    margin-top: 25px;
 
 
 }
 
-.home-elements {
-
-}
 
 .game-container {
     display: flex;
@@ -42,7 +39,7 @@ body {
     align-items: center;
     width: 1150px;
     height: 650px;
-    margin-top: 100px;
+    margin-top: 25px;
 
 
 }
@@ -70,12 +67,12 @@ body {
     padding-left: 30px;
     text-align: justify;
 }
-#start-button{
+#start-button, #reload-button{
     background: transparent;
     border: none;
     padding: 15px;
 }
-#start-button img{
+#start-button img, #reload-button img{
     width: 165px;
 }
 
