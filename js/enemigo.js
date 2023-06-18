@@ -42,7 +42,7 @@ class Enemigo {
 
         if(this.randomMove){
             const randomMove = Math.random();
-            console.log(randomMove)
+            //console.log(randomMove)
             if (randomMove <= 0.02){
                 this.speedX*=-1
             }

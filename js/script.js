@@ -3,7 +3,7 @@ const canvas = document.querySelector('#my-canvas');
 
 const ctx = canvas.getContext('2d');
 const startButton = document.querySelector('#start-button');
-const reloadButton = document.querySelector('#reload-button');
+const reloadButton = document.querySelector('.reload-button');
 const startPage = document.querySelector('.container');
 const canvasGame = document.querySelector('.game-container');
 

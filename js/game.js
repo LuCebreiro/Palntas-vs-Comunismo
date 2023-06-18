@@ -137,7 +137,7 @@ class Game {
                 this.score++;
                 this.background.gradientPoint -= LEVELS[this.levelSelected].degradado;
 
-                console.log(this.score)
+                //console.log(this.score)
                 /*if (this.score) {
                     this.nubes.updateScore(this.score)
                 }*/
@@ -198,7 +198,7 @@ class Game {
             }, 3500);
 
         } else {
-            console.log('colisiono')
+            //console.log('colisiono')
             this.winGame();
         }
     }
@@ -236,14 +236,16 @@ class Game {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         const image = new Image();
         image.src = './img/FONDO-WIN.png';
+
         image.onload = () => {
             this.ctx.drawImage(image, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
             this.ctx.font = '65px VT323';
             this.ctx.fillStyle = '#444345';
             ctx.textAlign = "center";
-            this.ctx.fillText('¡Enhorabuena! ¡Has salvado a tu Comunidad!', (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2));
-            this.showResetButton ();
+            this.ctx.fillText('¡Enhorabuena! ¡Has salvado a tu Comunidad!', (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 3));
+
         }
+        this.showResetButton();
 
     }
 
@@ -252,19 +254,20 @@ class Game {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         setTimeout(() => {
             const image = new Image();
-            image.src = './img/FONDO-WIN.png';
+            image.src = './img/FONDO-GAMEOVER.png';
+
             image.onload = () => {
                 this.ctx.drawImage(image, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
                 this.ctx.font = '65px VT323';
-                this.ctx.fillStyle = '#444345';
+                this.ctx.fillStyle = 'RED';
                 ctx.textAlign = "center";
-                this.ctx.fillText('El comunismo ha ganado esta vez...', (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2));
-                this.showResetButton ();
+                this.ctx.fillText('El comunismo ha ganado esta vez...', (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 3));
             }
+            this.showResetButton();
         }, 250);
     }
 
-    showResetButton (){
+    showResetButton() {
         reloadButton.classList.remove('hidden')
     }
 }

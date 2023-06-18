@@ -10,7 +10,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%;
-    ;
+    position: relative;
 
 
 
@@ -67,15 +67,23 @@ body {
     padding-left: 30px;
     text-align: justify;
 }
-#start-button, #reload-button{
+#start-button{
     background: transparent;
     border: none;
     padding: 15px;
+    width: 165PX;
 }
-#start-button img, #reload-button img{
+#start-button img, .reload-button img{
     width: 165px;
 }
 
 .hidden {
     display: none;
+}
+
+.reload-button{
+    background: transparent;
+    border: none;
+    padding: 15px;
+    position: absolute;
 }
