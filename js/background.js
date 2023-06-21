@@ -16,7 +16,7 @@ class Background {
         this.imagePlanta = new Image()
         this.imagePlanta.src = '../img/planta.png'
         this.isReady = false;
-        this.imageEdificio.onload = () => {
+        this.imageNubes.onload = () => {
             this.isReady = true;
         }
         this.gradientPoint = 650;
