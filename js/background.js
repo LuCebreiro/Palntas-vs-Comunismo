@@ -8,13 +8,13 @@ class Background {
         this.width = this.ctx.canvas.width;
         this.height = this.ctx.canvas.height;
         this.imageNubes = new Image()
-        this.imageNubes.src = '../img/nubes-3.png'
+        this.imageNubes.src = './img/nubes-3.png'
         this.imageMadrid = new Image()
-        this.imageMadrid.src = '../img/Fondo-Madrid.png'
+        this.imageMadrid.src = './img/Fondo-Madrid.png'
         this.imageEdificio = new Image()
-        this.imageEdificio.src = '../img/Fondo-Edificio-3.png'
+        this.imageEdificio.src = './img/Fondo-Edificio-3.png'
         this.imagePlanta = new Image()
-        this.imagePlanta.src = '../img/planta.png'
+        this.imagePlanta.src = './img/planta.png'
         this.isReady = false;
         this.imageNubes.onload = () => {
             this.isReady = true;
