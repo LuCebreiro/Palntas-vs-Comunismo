@@ -10,7 +10,7 @@ class Obstaculo {
     this.xFramesCount = 5;
     this.yFramesCount = 1;
     this.image = new Image();
-    this.image.src = '../img/obstaculos.png';
+    this.image.src = './img/obstaculos.png';
     this.isReady = false;
     this.image.onload = () => {
       this.isReady = true;

@@ -5,7 +5,7 @@ class Plataforma {
         this.y = y;
         this.width = width;
         this.image = new Image();
-        this.image.src = '../img/plataforma.png';
+        this.image.src = './img/plataforma.png';
         this.isReady = false;
         this.image.onload = () => {
             this.height = this.width * this.image.height / this.image.width;

@@ -31,7 +31,7 @@ class Game {
         this.score = 0;
 
         this.music = new Audio();
-        this.music.src = '../audio/himno-pp-merengue.mp3';
+        this.music.src = './audio/himno-pp-merengue.mp3';
         this.music.loop = true;
         this.music.volume = 0.1;
 

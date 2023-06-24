@@ -5,7 +5,7 @@ class Planta {
         this.y = y;
         this.width = 30;
         this.image = new Image();
-        this.image.src = '../img/planta.png';
+        this.image.src = './img/planta.png';
         this.isReady = false;
         this.image.onload = () => {
             this.height = this.width * this.image.height / this.image.width;

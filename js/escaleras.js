@@ -5,7 +5,7 @@ class Escalera {
         this.y = y;
         this.width = 40;
         this.image = new Image();
-        this.image.src = large ? '../img/escalera-1.png' : '../img/escalera-2.png';
+        this.image.src = large ? './img/escalera-1.png' : './img/escalera-2.png';
         this.isReady = false;
         this.image.onload = () => {
             this.height = this.width * this.image.height / this.image.width;

@@ -10,22 +10,22 @@ class ScoreBlock {
         this.isReady = false;
 
         this.imgStartRed = new Image()
-        this.imgStartRed.src = '../img/inicio-rojo.png'
+        this.imgStartRed.src = './img/inicio-rojo.png'
 
         this.imgStartGreen = new Image()
-        this.imgStartGreen.src = '../img/inicio-verde.png'
+        this.imgStartGreen.src = './img/inicio-verde.png'
 
         this.imgCenterRed = new Image()
-        this.imgCenterRed.src = '../img/centro-rojo.png';
+        this.imgCenterRed.src = './img/centro-rojo.png';
 
         this.imgCenterGreen = new Image() 
-        this.imgCenterGreen.src = '../img/centro-verde.png';
+        this.imgCenterGreen.src = './img/centro-verde.png';
 
         this.imgEndRed = new Image();
-        this.imgEndRed.src = '../img/fin-rojo.png';
+        this.imgEndRed.src = './img/fin-rojo.png';
         
         this.imgEndGreen = new Image();
-        this.imgEndGreen.src = '../img/fin-verde.png';
+        this.imgEndGreen.src = './img/fin-verde.png';
 
     }
 

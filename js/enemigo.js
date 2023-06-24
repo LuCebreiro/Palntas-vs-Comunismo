@@ -11,7 +11,7 @@ class Enemigo {
         this.xFramesCount = 2;
         this.yFramesCount = 3;
         this.image = new Image();
-        this.image.src = '../img/enemigo.png';
+        this.image.src = './img/enemigo.png';
         this.isReady = false;
         this.image.onload = () => {
             this.isReady = true;

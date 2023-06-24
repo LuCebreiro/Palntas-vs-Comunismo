@@ -11,7 +11,7 @@ class Player {
         this.xFramesCount = 3;
         this.yFramesCount = 4;
         this.image = new Image();
-        this.image.src = '../img/player-sprite.png';
+        this.image.src = './img/player-sprite.png';
         this.isReady = false;
         this.image.onload = () => {
             this.isReady = true;
